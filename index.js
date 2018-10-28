@@ -52,7 +52,7 @@ async function checkAllURLs() {
     const page = await browser.newPage()
     for (let i = len; i >= 0; i--) {
         console.log(`id: ${len-i}`)
-        await delay(1000);
+        //await delay(1000);
         let {content, isLoginable} = await checkURL(page);
         console.log(isLoginable)
         oldScript(content, isLoginable);
