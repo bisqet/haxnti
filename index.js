@@ -71,6 +71,7 @@ async function checkAllURLs() {
 async function checkURL(page, id, speciallyID) {
     await page.goto(`https://reg.nti-contest.ru/api/reg_stepik_acc?player_id=${id}&speciality_id=${speciallyID}`);
     const content = await page.content();
+    await page.waitFor('form>button')
     await page.click('form>button')
     await page.waitForNavigation({waitUntil:120000});
     const check = await page.$('sign-form__btn button_with-loader')
