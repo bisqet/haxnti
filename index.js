@@ -53,7 +53,7 @@ async function checkAllURLs() {
     for (let i = len; i >= 0; i--) {
         console.log(`id: ${len-i}`)
         //await delay(1000);
-        let {content, isLoginable} = await checkURL(page);
+        let {content, isLoginable} = await checkURL(page, id, 5);
         console.log(isLoginable)
         oldScript(content, isLoginable);
     }
@@ -72,6 +72,7 @@ async function checkAllURLs() {
 async function checkURL(page, id, speciallyID) {
     await page.goto(`https://reg.nti-contest.ru/api/reg_stepik_acc?player_id=${id}&speciality_id=${speciallyID}`);
     const content = await page.content();
+    console.log(content)
     await page.waitFor('form>button')
     await page.click('form>button')
     await page.waitForNavigation({waitUntil:120000});
