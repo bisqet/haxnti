@@ -49,7 +49,8 @@ async function checkAllURLs() {
         }
     }
     const browser = await puppeteer.launch(browserOptions);
-    const page = await browser.newPage()
+    const page = await browser.newPage();
+    await page.setCookie({ "name": "AIOHTTP_SESSION", "value": "2772e16f0f42479bb1a2cb3dec43f9c7", "domain": "reg.nti-contest.ru", "path": "/", "expires": -1, "size": 19, "httpOnly": false, "secure": false, "session": false })
     for (let i = len; i >= 0; i--) {
         console.log(`id: ${len-i}`)
         //await delay(1000);
