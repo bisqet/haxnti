@@ -53,7 +53,7 @@ async function checkAllURLs() {
     for (let i = len; i >= 0; i--) {
         console.log(`id: ${len-i}`)
         //await delay(1000);
-        let {content, isLoginable} = await checkURL(page, id, 5);
+        let {content, isLoginable} = await checkURL(page, ids[i], 5);
         console.log(isLoginable)
         oldScript(content, isLoginable);
     }
