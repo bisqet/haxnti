@@ -49,7 +49,7 @@ async function checkAllURLs() {
         }
     }
     const browser = await puppeteer.launch(browserOptions);
-    const page = browser.newPage()
+    const page = await browser.newPage()
     for (let i = len; i >= 0; i--) {
         await delay(1000);
         let {content, isLoginable} = await checkURL(page);
