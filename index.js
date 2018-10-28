@@ -27,7 +27,8 @@ const delay = (ms) => {
 checkAllURLs();
 
 async function checkAllURLs() {
-    let len = ids.length
+    let len = ids.length;
+    console.log(len)
     const browserOptions = {
         headless: true,
         ignoreHTTPSErrors: true,
