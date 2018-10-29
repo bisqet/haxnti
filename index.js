@@ -16,19 +16,6 @@ const personal = require('./personal.js');
 const all = require('./all.js');
 
 //const getAllLoginable = require('getLoginable.js')
-
-
-const delay = (ms) => {
-    return new Promise((res, rej) => {
-        setTimeout(res, ms)
-    })
-}
-
-checkAllURLs();
-
-async function checkAllURLs() {
-    let len = ids.length;
-    console.log(len)
     const browserOptions = {
         headless: true,
         ignoreHTTPSErrors: true,
@@ -49,12 +36,22 @@ async function checkAllURLs() {
             isLandscape: false
         }
     }
+
+const delay = (ms) => {
+    return new Promise((res, rej) => {
+        setTimeout(res, ms)
+    })
+}
+
+checkAllURLs();
+
+async function checkAllURLs() {
+    let len = ids.length;
     const browser = await puppeteer.launch(browserOptions);
     const page = await browser.newPage();
     await page.setCookie({ "name": "AIOHTTP_SESSION", "value": "2772e16f0f42479bb1a2cb3dec43f9c7", "domain": "reg.nti-contest.ru", "path": "/", "expires": -1, "size": 19, "httpOnly": false, "secure": false, "session": false })
     for (let i = len-1; i >= 0; i--) {
         console.log(`id: ${len-i}`)
-        console.log('ids[i]: ', ids[i])
         //await delay(1000);
         let {content, isLoginable} = await checkURL(page, ids[i], 5);
         console.log(isLoginable)
@@ -105,7 +102,6 @@ async function checkURLOld(id, speciallyID) {
 
 async function oldScript(res, isLoginable) {
     if(res.match(/lis_person_contact_email_primary" value="(.*?)"/)===null)return;
-        console.log(`id: ${len-i}`)
         resultPersonal = {
             email: res.match(/lis_person_contact_email_primary" value="(.*?)"/)[1],
             name: res.match(/lis_person_name_full" value="(.*?)"/)[1]
