@@ -73,7 +73,7 @@ async function checkAllURLs() {
 }
 async function checkURL(page, id, speciallyID) {
     const firstURL = `https://reg.nti-contest.ru/api/reg_stepik_acc?player_id=${id}&speciality_id=${speciallyID}`;
-    await page.goto(url,{waitUntil:60000});
+    await page.goto(firstURL,{waitUntil:60000});
     const content = await page.content();
     console.log('got content')
     //console.log(`https://reg.nti-contest.ru/api/reg_stepik_acc?player_id=${id}&speciality_id=${speciallyID}`)
