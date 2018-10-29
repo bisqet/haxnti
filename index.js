@@ -75,6 +75,11 @@ async function checkURL(page, id, speciallyID) {
     const content = await page.content();
     console.log(`https://reg.nti-contest.ru/api/reg_stepik_acc?player_id=${id}&speciality_id=${speciallyID}`)
     console.log(content)
+    if(content.indexOf('Игрок не найден по переданному ID.')>-1)return {content:content, isLoginable:false}
+    if(content.indexOf('Server got itself in trouble')>-1){
+        console.error('Server got itself in trouble: ', id)
+        return {content:content, isLoginable:false}
+    }
     await page.waitFor('form>button')
     await page.click('form>button')
     await page.waitForNavigation({waitUntil:120000});
