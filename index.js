@@ -54,9 +54,9 @@ async function checkAllURLs() {
         //await delay(1000);
         let id = ids[i]
         console.log(`id: ${id}`)
-        let {content, isLoginable} = await checkURL(page, id, 5);
+        let {content, isLoginable, url} = await checkURL(page, id, 5);
         console.log(isLoginable)
-        oldScript(content, isLoginable, id);
+        oldScript(content, isLoginable, id, url);
     }
 
     fs.writeFile('./all2.js', `module.exports = ${JSON.stringify(all, null, 2)};`, "utf8", (err, data) => {
