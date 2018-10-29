@@ -102,7 +102,7 @@ async function checkURL(page, id, speciallyID) {
         const contentSecond = await page.content();
         try{
             await page.waitFor('.epic-error')
-        }catch(){
+        }catch(err){
             isInfo = true;
             console.log(contentSecond);
         }
