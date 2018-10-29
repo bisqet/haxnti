@@ -87,7 +87,7 @@ async function checkURL(page, id, speciallyID) {
     const url = await page.url();
     console.log(url)
     let isLoginable = false
-    if(url.indexOf('lesson/125724/step/1/toc?')>-1){
+    if(url.indexOf('lesson/125724/')>-1){
         isLoginable = true
     }
     return {content:content, isLoginable:isLoginable}
