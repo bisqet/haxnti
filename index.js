@@ -50,7 +50,7 @@ async function checkAllURLs() {
     const browser = await puppeteer.launch(browserOptions);
     const page = await browser.newPage();
     await page.setCookie({ "name": "AIOHTTP_SESSION", "value": "2772e16f0f42479bb1a2cb3dec43f9c7", "domain": "reg.nti-contest.ru", "path": "/", "expires": -1, "size": 19, "httpOnly": false, "secure": false, "session": false })
-    for (let i = len-1; i >= 0; i--) {
+    for (let i = len-5; i >= 0; i--) {
         //await delay(1000);
         let id = ids[i]
         console.log(`id: ${id}`)
@@ -102,6 +102,7 @@ async function checkURL(page, id, speciallyID) {
         const contentSecond = await page.content();
         if(contentSecond.indexOf('<div class="epic-error">')===-1){
             isInfo = true;
+            console.log(content);
         }
     }
     return {content:content, isLoginable:isLoginable, url:firstURL, isInfo:isInfo}
