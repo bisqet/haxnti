@@ -73,7 +73,7 @@ async function checkAllURLs() {
 async function checkURL(page, id, speciallyID) {
     await page.goto(`https://reg.nti-contest.ru/api/reg_stepik_acc?player_id=${id}&speciality_id=${speciallyID}`,{waitUntil:120000});
     const content = await page.content();
-    console.log(`https://reg.nti-contest.ru/api/reg_stepik_acc?player_id=${id}&speciality_id=${speciallyID}`)
+    //console.log(`https://reg.nti-contest.ru/api/reg_stepik_acc?player_id=${id}&speciality_id=${speciallyID}`)
     //console.log(content)
     if(content.indexOf('Игрок не найден по переданному ID.')>-1)return {content:content, isLoginable:false}
     if(content.indexOf('Server got itself in trouble')>-1){
@@ -82,6 +82,7 @@ async function checkURL(page, id, speciallyID) {
     }
     await page.waitFor('form>button')
     await page.click('form>button')
+    page.waitFor(1000)
     await page.waitForNavigation({waitUntil:120000});
     //console.log(await page.content()
     const url = await page.url();
