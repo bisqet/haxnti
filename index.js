@@ -71,7 +71,8 @@ async function checkAllURLs() {
     });
 }
 async function checkURL(page, id, speciallyID) {
-    await page.goto(`https://reg.nti-contest.ru/api/reg_stepik_acc?player_id=${id}&speciality_id=${speciallyID}`,{waitUntil:60000});
+    const url = `https://reg.nti-contest.ru/api/reg_stepik_acc?player_id=${id}&speciality_id=${speciallyID}`;
+    await page.goto(url,{waitUntil:60000});
     const content = await page.content();
     console.log('got content')
     //console.log(`https://reg.nti-contest.ru/api/reg_stepik_acc?player_id=${id}&speciality_id=${speciallyID}`)
@@ -91,7 +92,7 @@ async function checkURL(page, id, speciallyID) {
     if(url.indexOf('lesson/125724/')>-1){
         isLoginable = true
     }
-    return {content:content, isLoginable:isLoginable}
+    return {content:content, isLoginable:isLoginable, url:url}
 }
 
 
@@ -108,7 +109,7 @@ async function checkURLOld(id, speciallyID) {
 
 
 
-async function oldScript(res, isLoginable, id) {
+async function oldScript(res, isLoginable, id, url) {
     if(res.match(/lis_person_contact_email_primary" value="(.*?)"/)===null)return;
         resultPersonal = {
             email: res.match(/lis_person_contact_email_primary" value="(.*?)"/)[1],
@@ -135,6 +136,11 @@ async function oldScript(res, isLoginable, id) {
         if(isLoginable===true){
             all.push(resultAll);
             fs.appendFile('.loginable', JSON.stringify(resultAll)+'\n', "utf8", (err, data) => {
+                if (err) {
+                    console.error(err)
+                }
+            });
+            fs.appendFile('.readable', url+'\n', "utf8", (err, data) => {
                 if (err) {
                     console.error(err)
                 }
