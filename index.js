@@ -100,7 +100,7 @@ async function checkURL(page, id, speciallyID) {
         isLoginable = true
         await page.goto('https://stepik.org/lesson/126702/');
         const contentSecond = await page.content();
-        if(contentSecond.indexOf('Access denied')===-1){
+        if(contentSecond.indexOf('<div class="epic-error">')===-1){
             isInfo = true;
         }
     }
