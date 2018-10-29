@@ -82,9 +82,8 @@ async function checkURL(page, id, speciallyID) {
     }
     await page.waitFor('form>button')
     await page.click('form>button')
-    page.waitFor(1000)
     await page.waitForNavigation({waitUntil:120000});
-    //console.log(await page.content()
+    await page.content()
     const url = await page.url();
     console.log(url)
     let isLoginable = false
