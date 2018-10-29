@@ -84,9 +84,9 @@ async function checkURL(page, id, speciallyID) {
     await page.click('form>button')
     await page.waitForNavigation({waitUntil:120000});
     console.log(await page.content())
-    const check = await page.$('.sign-form__btn.button_with-loader')
+    const url = await page.url();
     let isLoginable = false
-    if(check!==null){
+    if(url.indexOf('lesson/125724/step/1/toc?')>-1){
         isLoginable = true
     }
     return {content:content, isLoginable:isLoginable}
