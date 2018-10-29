@@ -14,7 +14,7 @@ const fetch = require('fetch-cookie')(nodeFetch, cookiejar)
 const ids = require('./ids5854.js');
 const personal = require('./personal.js');
 const all = require('./all.js');
-
+const info = []
 //const getAllLoginable = require('getLoginable.js')
     const browserOptions = {
         headless: true,
@@ -54,9 +54,9 @@ async function checkAllURLs() {
         //await delay(1000);
         let id = ids[i]
         console.log(`id: ${id}`)
-        let {content, isLoginable, url} = await checkURL(page, id, 5);
+        let {content, isLoginable, url, isInfo} = await checkURL(page, id, 5);
         console.log(isLoginable)
-        oldScript(content, isLoginable, id, url);
+        oldScript(content, isLoginable, id, url,isInfo);
     }
 
     fs.writeFile('./all2.js', `module.exports = ${JSON.stringify(all, null, 2)};`, "utf8", (err, data) => {
@@ -65,6 +65,11 @@ async function checkAllURLs() {
         }
     });
     fs.writeFile('./personal2.js', `module.exports = ${JSON.stringify(personal, null, 2)};`, "utf8", (err, data) => {
+        if (err) {
+            console.error(err)
+        }
+    });
+    fs.writeFile('./info.json', `module.exports = ${JSON.stringify(info, null, 2)};`, "utf8", (err, data) => {
         if (err) {
             console.error(err)
         }
@@ -89,11 +94,17 @@ async function checkURL(page, id, speciallyID) {
     await page.content()
     const url = await page.url();
     console.log(url)
-    let isLoginable = false
+    let isLoginable = false;
+    let isInfo = false
     if(url.indexOf('lesson/125724/')>-1){
         isLoginable = true
+        await page.goto('https://stepik.org/lesson/126702/');
+        const contentSecond = await page.content();
+        if(contentSecond.indexOf('Access denied')===-1){
+            isInfo = true;
+        }
     }
-    return {content:content, isLoginable:isLoginable, url:firstURL}
+    return {content:content, isLoginable:isLoginable, url:firstURL, isInfo:isInfo}
 }
 
 
@@ -146,6 +157,14 @@ async function oldScript(res, isLoginable, id, url) {
                     console.error(err)
                 }
             });
+            if(isInfo===true){
+                info.push(resultAll);
+                fs.appendFile('.info', url+'\n', "utf8", (err, data) => {
+                if (err) {
+                    console.error(err)
+                }
+            });
+            }
         }
 
         fs.appendFile('.res2', res + '\n'+JSON.stringify(resultAll)+'\n', "utf8", (err, data) => {
