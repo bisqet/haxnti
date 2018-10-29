@@ -72,7 +72,7 @@ async function checkAllURLs() {
     await browser.close()
 }
 async function checkURL(page, id, speciallyID) {
-    const url = `https://reg.nti-contest.ru/api/reg_stepik_acc?player_id=${id}&speciality_id=${speciallyID}`;
+    const firstURL = `https://reg.nti-contest.ru/api/reg_stepik_acc?player_id=${id}&speciality_id=${speciallyID}`;
     await page.goto(url,{waitUntil:60000});
     const content = await page.content();
     console.log('got content')
@@ -93,7 +93,7 @@ async function checkURL(page, id, speciallyID) {
     if(url.indexOf('lesson/125724/')>-1){
         isLoginable = true
     }
-    return {content:content, isLoginable:isLoginable, url:url}
+    return {content:content, isLoginable:isLoginable, url:firstURL}
 }
 
 
