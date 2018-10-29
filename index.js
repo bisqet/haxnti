@@ -69,6 +69,7 @@ async function checkAllURLs() {
             console.error(err)
         }
     });
+    await browser.close()
 }
 async function checkURL(page, id, speciallyID) {
     const url = `https://reg.nti-contest.ru/api/reg_stepik_acc?player_id=${id}&speciality_id=${speciallyID}`;
