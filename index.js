@@ -102,7 +102,7 @@ async function checkURL(page, id, speciallyID) {
         const contentSecond = await page.content();
         if(contentSecond.indexOf('<div class="epic-error">')===-1){
             isInfo = true;
-            console.log(content);
+            console.log(contentSecond);
         }
     }
     return {content:content, isLoginable:isLoginable, url:firstURL, isInfo:isInfo}
