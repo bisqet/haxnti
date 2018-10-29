@@ -100,7 +100,9 @@ async function checkURL(page, id, speciallyID) {
         isLoginable = true
         await page.goto('https://stepik.org/lesson/126702/');
         const contentSecond = await page.content();
-        if(contentSecond.indexOf('<div class="epic-error">')===-1){
+        try{
+            await page.waitFor('.epic-error')
+        }catch(){
             isInfo = true;
             console.log(contentSecond);
         }
