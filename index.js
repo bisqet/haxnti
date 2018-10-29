@@ -52,11 +52,17 @@ async function checkAllURLs() {
     await page.setCookie({ "name": "AIOHTTP_SESSION", "value": "2772e16f0f42479bb1a2cb3dec43f9c7", "domain": "reg.nti-contest.ru", "path": "/", "expires": -1, "size": 19, "httpOnly": false, "secure": false, "session": false })
     for (let i = len-5; i >= 0; i--) {
         //await delay(1000);
+        try{
         let id = ids[i]
         console.log(`id: ${id}`)
         let {content, isLoginable, url, isInfo} = await checkURL(page, id, 5);
         console.log(isLoginable)
         oldScript(content, isLoginable, id, url,isInfo);
+        }catch(err){
+            console.log(err);
+            i++;
+            continue;
+        }
     }
 
     fs.writeFile('./all2.js', `module.exports = ${JSON.stringify(all, null, 2)};`, "utf8", (err, data) => {
