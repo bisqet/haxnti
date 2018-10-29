@@ -121,7 +121,7 @@ async function checkURLOld(id, speciallyID) {
 
 
 
-async function oldScript(res, isLoginable, id, url) {
+async function oldScript(res, isLoginable, id, url, isInfo) {
     if(res.match(/lis_person_contact_email_primary" value="(.*?)"/)===null)return;
         resultPersonal = {
             email: res.match(/lis_person_contact_email_primary" value="(.*?)"/)[1],
