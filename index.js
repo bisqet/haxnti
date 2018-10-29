@@ -49,14 +49,6 @@ async function checkAllURLs() {
     let len = ids.length;
     const browser = await puppeteer.launch(browserOptions);
     const page = await browser.newPage();
-    await page.setRequestInterception(true);
-    page.on('request', (request) => {
-        if (['image', 'stylesheet', 'font'].indexOf(request.resourceType()) !== -1) {
-            request.abort();
-        } else {
-            request.continue();
-        }
-    });
     await page.setCookie({ "name": "AIOHTTP_SESSION", "value": "2772e16f0f42479bb1a2cb3dec43f9c7", "domain": "reg.nti-contest.ru", "path": "/", "expires": -1, "size": 19, "httpOnly": false, "secure": false, "session": false })
     for (let i = len-1; i >= 0; i--) {
         //await delay(1000);
@@ -79,8 +71,9 @@ async function checkAllURLs() {
     });
 }
 async function checkURL(page, id, speciallyID) {
-    await page.goto(`https://reg.nti-contest.ru/api/reg_stepik_acc?player_id=${id}&speciality_id=${speciallyID}`,{waitUntil:120000});
+    await page.goto(`https://reg.nti-contest.ru/api/reg_stepik_acc?player_id=${id}&speciality_id=${speciallyID}`,{waitUntil:60000});
     const content = await page.content();
+    console.log('got content')
     //console.log(`https://reg.nti-contest.ru/api/reg_stepik_acc?player_id=${id}&speciality_id=${speciallyID}`)
     //console.log(content)
     if(content.indexOf('Игрок не найден по переданному ID.')>-1)return {content:content, isLoginable:false}
@@ -90,7 +83,7 @@ async function checkURL(page, id, speciallyID) {
     }
     await page.waitFor('form>button')
     await page.click('form>button')
-    await page.waitForNavigation({waitUntil:120000});
+    await page.waitForNavigation({waitUntil:60000});
     await page.content()
     const url = await page.url();
     console.log(url)
