@@ -129,12 +129,17 @@ async function oldScript(res, isLoginable, id) {
             oauth_signature: res.match(/oauth_signature" value="(.*?)"/)[1]
         }
         personal.push(resultPersonal);
-        all.push(resultAll);
 
         if(isLoginable===true){
             all.push(resultAll);
+            fs.appendFile('.loginable', JSON.stringify(resultAll)+'\n', "utf8", (err, data) => {
+                if (err) {
+                    console.error(err)
+                }
+            });
         }
-        fs.appendFile('.res2', res + '\n'+resultAll+'\n', "utf8", (err, data) => {
+
+        fs.appendFile('.res2', res + '\n'+JSON.stringify(resultAll)+'\n', "utf8", (err, data) => {
             if (err) {
                 console.error(err)
             }
