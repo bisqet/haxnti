@@ -11,7 +11,8 @@ const fetch = require('fetch-cookie')(nodeFetch, cookiejar)
 
 
 
-const ids = require('./ids5854.js');
+//const ids = require('./ids5854.js');
+const ids = fs.readFileSync('./readable', 'utf8').split('\n')//get all loginable accs
 const personal = require('./personal.js');
 const all = require('./all.js');
 const info = []
@@ -53,11 +54,11 @@ async function checkAllURLs() {
     for (let i = len-5; i >= 0; i--) {
         //await delay(1000);
         try{
-        let id = ids[i]
+        let id = ids[i].match(/\?player_id=([0-9]*?)&/)[1];
         console.log(`id: ${id}`)
-        let {content, isLoginable, url, isInfo} = await checkURL(page, id, 5);
+        let {content, isLoginable, url, isInfo, isMath} = await checkURL(page, id, 5);
         console.log(isLoginable)
-        oldScript(content, isLoginable, id, url,isInfo);
+        oldScript(content, isLoginable, id, url,isInfo, isMath);
         }catch(err){
             console.log(err);
             i++;
@@ -102,18 +103,27 @@ async function checkURL(page, id, speciallyID) {
     console.log(url)
     let isLoginable = false;
     let isInfo = false
+    let isMath = false
     if(url.indexOf('lesson/125724/')>-1){
         isLoginable = true
-        await page.goto('https://stepik.org/lesson/126702/');
+        /*await page.goto('https://stepik.org/lesson/126702/');
         const contentSecond = await page.content();
         try{
             await page.waitFor('.epic-error')
         }catch(err){
             isInfo = true;
             console.log(contentSecond);
+        }for info*/
+        await page.goto('https://stepik.org/lesson/136591/');
+        const contentSecond = await page.content();
+        try{
+            await page.waitFor('.epic-error')
+        }catch(err){
+            isMath = true;
+            console.log(contentSecond);
         }
     }
-    return {content:content, isLoginable:isLoginable, url:firstURL, isInfo:isInfo}
+    return {content:content, isLoginable:isLoginable, url:firstURL, isInfo:isInfo, isMath:isMath}
 }
 
 
@@ -130,7 +140,7 @@ async function checkURLOld(id, speciallyID) {
 
 
 
-async function oldScript(res, isLoginable, id, url, isInfo) {
+async function oldScript(res, isLoginable, id, url, isInfo, isMath) {
     if(res.match(/lis_person_contact_email_primary" value="(.*?)"/)===null)return;
         resultPersonal = {
             email: res.match(/lis_person_contact_email_primary" value="(.*?)"/)[1],
@@ -169,6 +179,13 @@ async function oldScript(res, isLoginable, id, url, isInfo) {
             if(isInfo===true){
                 info.push(resultAll);
                 fs.appendFile('.info', url+'\n', "utf8", (err, data) => {
+                if (err) {
+                    console.error(err)
+                }
+            });
+            if(isMath===true){
+                info.push(resultAll);
+                fs.appendFile('.math', url+'\n', "utf8", (err, data) => {
                 if (err) {
                     console.error(err)
                 }
