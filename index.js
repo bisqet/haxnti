@@ -183,14 +183,14 @@ async function oldScript(res, isLoginable, id, url, isInfo, isMath) {
                     console.error(err)
                 }
             });
+            }
             if(isMath===true){
                 info.push(resultAll);
                 fs.appendFile('.math', url+'\n', "utf8", (err, data) => {
                 if (err) {
                     console.error(err)
                 }
-            });
-            }
+            });}
         }
 
         fs.appendFile('.res2', res + '\n'+JSON.stringify(resultAll)+'\n', "utf8", (err, data) => {
