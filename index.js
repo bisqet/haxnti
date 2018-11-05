@@ -12,7 +12,7 @@ const fetch = require('fetch-cookie')(nodeFetch, cookiejar)
 
 
 //const ids = require('./ids5854.js');
-const ids = fs.readFileSync('./readable', 'utf8').split('\n')//get all loginable accs
+const ids = fs.readFileSync('./.readable', 'utf8').split('\n')//get all loginable accs
 const personal = require('./personal.js');
 const all = require('./all.js');
 const info = []
